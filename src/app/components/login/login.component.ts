@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { UsuarioLogin } from '../../models/usuario-login.model';
@@ -9,7 +8,7 @@ import { AuthService } from '../../service/auth.service';
   selector: 'app-login',
   templateUrl: './login.component.html',
   standalone: true, 
-  imports:[FormsModule, CommonModule]
+  imports: [FormsModule, CommonModule]
 })
 export class LoginComponent {
   usuarioLogin: UsuarioLogin = new UsuarioLogin();
@@ -17,13 +16,12 @@ export class LoginComponent {
 
   constructor(private authService: AuthService) { }
 
-
-
-  onLogin(): void {
+  onSubmit(): void {
     this.authService.login(this.usuarioLogin).subscribe({
       next: (response) => {
         console.log('Login bem-sucedido:', response);
         // Armazene o token se necessário
+        // Redirecione para a página inicial ou outra página apropriada
       },
       error: (error) => {
         this.mensagemErro = 'Falha na autenticação. Verifique suas credenciais.';
