@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
   imports: [FormsModule, CommonModule]
 })
 export class NavbarComponent {
-  isLoggedIn = false; // Você pode ajustar isso com base na lógica de autenticação real
+  isLoggedIn = false;
   menuOpen = false;
 
   constructor(private router: Router) { }
@@ -24,14 +24,12 @@ export class NavbarComponent {
   }
 
   login(username: string, password: string) {
-    // Adicione a lógica de autenticação aqui
     console.log('Login clicked with:', username, password);
     this.isLoggedIn = true;
     this.closeMenu();
   }
 
   logout() {
-    // Adicione a lógica de logout aqui
     console.log('Logout clicked');
     this.isLoggedIn = false;
     this.closeMenu();
