@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { UsuarioLogin } from '../../models/usuario-login.model';
-import { AuthService } from '../../service/auth.service';
+import { UsuarioService } from '../../service/usuario.service';
+import { UsuarioLogin } from '../../models/usuario.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,17 +12,16 @@ import { AuthService } from '../../service/auth.service';
   imports: [FormsModule, CommonModule]
 })
 export class LoginComponent {
-  usuarioLogin: UsuarioLogin = new UsuarioLogin();
+  usuarioLogin: UsuarioLogin = { usuario: '', senha: '' }; 
   mensagemErro: string = '';
 
-  constructor(private authService: AuthService) { }
+  constructor(private usuarioService: UsuarioService, private router: Router) { }
 
   onSubmit(): void {
-    this.authService.login(this.usuarioLogin).subscribe({
+    this.usuarioService.autenticarUsuario(this.usuarioLogin).subscribe({
       next: (response) => {
         console.log('Login bem-sucedido:', response);
-        // Armazene o token se necessário
-        // Redirecione para a página inicial ou outra página apropriada
+        this.router.navigate(['/home']);
       },
       error: (error) => {
         this.mensagemErro = 'Falha na autenticação. Verifique suas credenciais.';
