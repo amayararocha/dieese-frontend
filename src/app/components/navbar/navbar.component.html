@@ -1,0 +1,58 @@
+<nav class="bg-gradient-to-r from-gray-800 to-gray-900 text-white p-6 shadow-lg relative">
+  <div class="container mx-auto flex flex-col md:flex-row justify-between items-center">
+    <div class="flex items-center space-x-4 mb-4 md:mb-0">
+      <img src="https://cdn.jsdelivr.net/npm/twemoji@11.3.0/2/svg/1f4d6.svg" alt="GreveInsight Logo" class="w-12 h-12 object-cover rounded-full border-2 border-teal-400">
+      <div class="text-3xl font-semibold text-gray-100">GreveInsight</div>
+    </div>
+    <div class="md:hidden flex items-center">
+      <button (click)="toggleMenu()" class="text-white focus:outline-none">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
+      </button>
+    </div>
+    <ul class="hidden md:flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-8">
+      <li *ngIf="isLoggedIn">
+        <a href="/" class="hover:text-teal-300 transition-colors duration-300 text-lg font-medium">Início</a>
+      </li>
+      <li *ngIf="isLoggedIn">
+        <a href="/greves" class="hover:text-teal-300 transition-colors duration-300 text-lg font-medium">Greves</a>
+      </li>
+      <li *ngIf="!isLoggedIn">
+        <a href="/login"
+           class="bg-gradient-to-r from-teal-600 to-cyan-600 text-white font-bold py-2 px-6 rounded-full 
+                  hover:from-teal-700 hover:to-cyan-700 hover:shadow-xl transition duration-300 transform hover:scale-105 text-lg"
+           (click)="login('user', 'password')">Login</a>
+      </li>
+      <li *ngIf="isLoggedIn">
+        <a href="/logout"
+           class="bg-gradient-to-r from-red-600 to-pink-600 text-white font-bold py-2 px-6 rounded-full 
+                  hover:from-red-700 hover:to-pink-700 hover:shadow-xl transition duration-300 transform hover:scale-105 text-lg"
+           (click)="logout()">Logout</a>
+      </li>
+    </ul>
+  </div>
+  <div *ngIf="menuOpen" class="fixed inset-0 bg-gray-900 bg-opacity-80 z-50 md:hidden">
+    <div class="flex flex-col items-center justify-center min-h-full p-6 relative">
+      <button (click)="closeMenu()" class="absolute top-4 right-4 text-white">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+      <ul class="space-y-4 text-center">
+        <li *ngIf="isLoggedIn">
+          <a href="/" class="text-white text-lg font-medium hover:text-teal-300" (click)="closeMenu()">Início</a>
+        </li>
+        <li *ngIf="isLoggedIn">
+          <a href="/greves" class="text-white text-lg font-medium hover:text-teal-300" (click)="closeMenu()">Greves</a>
+        </li>
+        <li *ngIf="!isLoggedIn">
+          <a href="/login" class="bg-gradient-to-r from-teal-600 to-cyan-600 text-white font-bold py-2 px-6 rounded-full" (click)="closeMenu(); login('testuser', 'testpassword')">Login</a>
+        </li>
+        <li *ngIf="isLoggedIn">
+          <a href="/logout" class="bg-gradient-to-r from-red-600 to-pink-600 text-white font-bold py-2 px-6 rounded-full" (click)="closeMenu(); logout()">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

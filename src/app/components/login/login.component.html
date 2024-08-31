@@ -1,0 +1,16 @@
+<div>
+    <h2>Login</h2>
+    <form (ngSubmit)="onLogin()">
+      <div>
+        <label for="usuario">Usuário:</label>
+        <input id="usuario" [(ngModel)]="usuarioLogin.usuario" name="usuario" required>
+      </div>
+      <div>
+        <label for="senha">Senha:</label>
+        <input id="senha" [(ngModel)]="usuarioLogin.senha" name="senha" type="password" required>
+      </div>
+      <button type="submit">Login</button>
+    </form>
+    <p *ngIf="mensagemErro">{{ mensagemErro }}</p>
+  </div>
+  
