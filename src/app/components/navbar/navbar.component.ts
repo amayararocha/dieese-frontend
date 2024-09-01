@@ -33,17 +33,16 @@ export class NavbarComponent implements OnInit {
   login(username: string, password: string): void {
     this.userService.autenticarUsuario({ usuario: username, senha: password }).subscribe(
       (response) => {
-        // On successful login, redirect or perform actions if needed
-        this.router.navigate(['/']);
+        this.router.navigate(['/greves']);
       },
       error => {
-        console.error('Login failed:', error);
+        console.error('Login falhou', error);
       }
     );
   }
 
   logout(): void {
     this.userService.logout();
-    this.router.navigate(['/login']); // Redirect to login page on logout
+    this.router.navigate(['/home']); 
   }
 }

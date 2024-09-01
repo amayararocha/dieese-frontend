@@ -1,118 +1,127 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Greve } from '../../../models/greve.model';
 import { GreveService } from '../../../service/greve.service';
-import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { EditGreveModalComponent } from '../edita-greve/edita-greve.component';
 
 @Component({
   selector: 'app-greve',
   templateUrl: './greve.component.html',
   standalone: true,
-  imports: [FormsModule, CommonModule]
+  imports: [CommonModule, ReactiveFormsModule, EditGreveModalComponent]
 })
-export class GreveComponent implements OnInit {
-
+export class GreveListComponent implements OnInit {
   greves: Greve[] = [];
-  greveSelecionada: Greve | null = null;
-  novaGreve: Greve = this.resetarGreve();
-  mensagemErro: string = '';
+  searchForm!: FormGroup;
+  loading: boolean = false;
+  error: string | null = null;
+  selectedGreve?: Greve;
+  showModal: boolean = false;
 
-  constructor(private greveService: GreveService) { }
+  constructor(
+    private greveService: GreveService,
+    private fb: FormBuilder,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
-    this.obterTodasGreves();
-  }
-
-  obterTodasGreves(): void {
-    this.greveService.obterTodasGreves().subscribe({
-      next: (data) => {
-        this.greves = data;
-      },
-      error: (err) => {
-        this.mensagemErro = 'Erro ao buscar greves.';
-        console.error('Erro ao buscar greves:', err);
-      }
+    this.searchForm = this.fb.group({
+      categoria: [''],
+      sindicato: ['']
     });
+
+    this.loadGreves();
   }
 
-  selecionarGreve(greve: Greve): void {
-    this.greveSelecionada = greve;
-  }
+  loadGreves(): void {
+    this.loading = true;
+    this.error = null;
+    const { categoria, sindicato } = this.searchForm.value;
 
-  buscarPorCategoria(categoria: string): void {
-    this.greveService.obterGrevesPorCategoria(categoria).subscribe({
-      next: (data) => {
-        this.greves = data;
-      },
-      error: (err) => {
-        this.mensagemErro = 'Erro ao buscar greves por categoria.';
-        console.error('Erro ao buscar greves por categoria:', err);
-      }
-    });
-  }
-
-  buscarPorSindicato(sindicato: string): void {
-    this.greveService.obterGrevesPorSindicato(sindicato).subscribe({
-      next: (data) => {
-        this.greves = data;
-      },
-      error: (err) => {
-        this.mensagemErro = 'Erro ao buscar greves por sindicato.';
-        console.error('Erro ao buscar greves por sindicato:', err);
-      }
-    });
-  }
-
-  salvarGreve(): void {
-    if (this.greveSelecionada && this.greveSelecionada.id) {
-      this.greveService.atualizarGreve(this.greveSelecionada.id, this.greveSelecionada).subscribe({
-        next: () => {
-          this.obterTodasGreves();
-          this.greveSelecionada = null;
+    if (categoria) {
+      this.greveService.obterGrevesPorCategoria(categoria).subscribe(
+        (data: Greve[]) => {
+          this.greves = data;
+          this.loading = false;
         },
-        error: (err) => {
-          this.mensagemErro = 'Erro ao atualizar greve.';
-          console.error('Erro ao atualizar greve:', err);
+        (err) => {
+          this.error = 'Erro ao carregar greves por categoria';
+          this.loading = false;
         }
-      });
+      );
+    } else if (sindicato) {
+      this.greveService.obterGrevesPorSindicato(sindicato).subscribe(
+        (data: Greve[]) => {
+          this.greves = data;
+          this.loading = false;
+        },
+        (err) => {
+          this.error = 'Erro ao carregar greves por sindicato';
+          this.loading = false;
+        }
+      );
     } else {
-      this.greveService.criarGreve(this.novaGreve).subscribe({
-        next: () => {
-          this.obterTodasGreves();
-          this.novaGreve = this.resetarGreve();
+      this.greveService.obterTodasGreves().subscribe(
+        (data: Greve[]) => {
+          this.greves = data;
+          this.loading = false;
         },
-        error: (err) => {
-          this.mensagemErro = 'Erro ao criar nova greve.';
-          console.error('Erro ao criar nova greve:', err);
+        (err) => {
+          this.error = 'Erro ao carregar todas as greves';
+          this.loading = false;
         }
-      });
+      );
     }
   }
 
-  deletarGreve(id: number): void {
-    this.greveService.deletarGreve(id).subscribe({
-      next: () => {
-        this.obterTodasGreves();
-      },
-      error: (err) => {
-        this.mensagemErro = 'Erro ao deletar greve.';
-        console.error('Erro ao deletar greve:', err);
-      }
-    });
+  onSearch(): void {
+    this.loadGreves();
   }
 
-  resetarGreve(): Greve {
-    return {
-      dataInicio: '',
-      motivo: '',
-      categoriasTrabalhadores: '',
-      numeroTrabalhadores: 0,
-      local: '',
-      sindicato: ''
-    };
+  onReset(): void {
+    this.searchForm.reset();
+    this.loadGreves();
   }
 
-  cancelarEdicao(): void {
-    this.greveSelecionada = null;
+  onAddGreve(): void {
+    this.router.navigate(['/add-greve']);
+  }
+
+  onEditGreve(greve: Greve): void {
+    this.selectedGreve = greve;
+    this.showModal = true;
+  }
+
+  onSaveGreve(updatedGreve: Greve): void {
+    if (this.selectedGreve) {
+      this.greveService.atualizarGreve(this.selectedGreve.id, updatedGreve).subscribe(
+        () => {
+          this.loadGreves();
+          this.showModal = false;
+        },
+        (err) => {
+          this.error = 'Erro ao salvar a greve';
+        }
+      );
+    }
+  }
+
+  onCloseModal(): void {
+    this.showModal = false;
+  }
+
+  onDeleteGreve(id: number): void {
+    if (confirm('Tem certeza que deseja deletar esta greve?')) {
+      this.greveService.deletarGreve(id).subscribe(
+        () => {
+          this.loadGreves();
+        },
+        (err) => {
+          this.error = 'Erro ao deletar a greve';
+        }
+      );
+    }
   }
 }

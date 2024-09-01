@@ -1,0 +1,84 @@
+<div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-4xl mx-4">
+      <h2 class="text-xl font-semibold mb-4 text-gray-100">Editar Greve</h2>
+      <form [formGroup]="editForm" (ngSubmit)="onSave()" class="space-y-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label for="dataInicio" class="block text-gray-300 mb-1">Data Início:</label>
+            <input
+              id="dataInicio"
+              formControlName="dataInicio"
+              class="form-input mt-1 block w-full bg-gray-800 text-gray-100 border border-gray-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              type="date"
+            />
+          </div>
+          <div>
+            <label for="dataFim" class="block text-gray-300 mb-1">Data Fim:</label>
+            <input
+              id="dataFim"
+              formControlName="dataFim"
+              class="form-input mt-1 block w-full bg-gray-800 text-gray-100 border border-gray-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              type="date"
+            />
+          </div>
+          <div>
+            <label for="categoriasTrabalhadores" class="block text-gray-300 mb-1">Categorias Trabalhadores:</label>
+            <input
+              id="categoriasTrabalhadores"
+              formControlName="categoriasTrabalhadores"
+              class="form-input mt-1 block w-full bg-gray-800 text-gray-100 border border-gray-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label for="numeroTrabalhadores" class="block text-gray-300 mb-1">Número de Trabalhadores:</label>
+            <input
+              id="numeroTrabalhadores"
+              formControlName="numeroTrabalhadores"
+              class="form-input mt-1 block w-full bg-gray-800 text-gray-100 border border-gray-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              type="number"
+            />
+          </div>
+          <div>
+            <label for="local" class="block text-gray-300 mb-1">Local:</label>
+            <input
+              id="local"
+              formControlName="local"
+              class="form-input mt-1 block w-full bg-gray-800 text-gray-100 border border-gray-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label for="sindicato" class="block text-gray-300 mb-1">Sindicato:</label>
+            <input
+              id="sindicato"
+              formControlName="sindicato"
+              class="form-input mt-1 block w-full bg-gray-800 text-gray-100 border border-gray-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div class="md:col-span-2">
+            <label for="motivo" class="block text-gray-300 mb-1">Motivo:</label>
+            <input
+              id="motivo"
+              formControlName="motivo"
+              class="form-input mt-1 block w-full bg-gray-800 text-gray-100 border border-gray-700 rounded-lg p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+        </div>
+        <div class="flex justify-end gap-4 mt-6">
+          <button
+            type="button"
+            (click)="onClose()"
+            class="flex-1 px-4 py-2 bg-gray-700 text-gray-300 rounded-lg hover:bg-gray-600 transition duration-200"
+          >
+            Cancelar
+          </button>
+          <button
+            type="submit"
+            class="flex-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-200"
+          >
+            Salvar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  

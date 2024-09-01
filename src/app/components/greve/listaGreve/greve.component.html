@@ -1,51 +1,97 @@
-<div class="container">
-    <h2>Gestão de Greves</h2>
-    <div>
-      <h3 *ngIf="!greveSelecionada">Nova Greve</h3>
-      <h3 *ngIf="greveSelecionada">Editar Greve</h3>
-      <form (ngSubmit)="salvarGreve()">
-        <input type="text" [(ngModel)]="greveSelecionada.dataInicio" placeholder="Data de Início" name="dataInicio" required *ngIf="greveSelecionada" />
-        <input type="text" [(ngModel)]="novaGreve.dataInicio" placeholder="Data de Início" name="dataInicio" required *ngIf="!greveSelecionada" />
-  
-        <input type="text" [(ngModel)]="greveSelecionada.motivo" placeholder="Motivo" name="motivo" required *ngIf="greveSelecionada" />
-        <input type="text" [(ngModel)]="novaGreve.motivo" placeholder="Motivo" name="motivo" required *ngIf="!greveSelecionada" />
-  
-        <input type="text" [(ngModel)]="greveSelecionada.categoriasTrabalhadores" placeholder="Categorias de Trabalhadores" name="categoriasTrabalhadores" *ngIf="greveSelecionada" />
-        <input type="text" [(ngModel)]="novaGreve.categoriasTrabalhadores" placeholder="Categorias de Trabalhadores" name="categoriasTrabalhadores" *ngIf="!greveSelecionada" />
-  
-        <input type="number" [(ngModel)]="greveSelecionada.numeroTrabalhadores" placeholder="Número de Trabalhadores" name="numeroTrabalhadores" *ngIf="greveSelecionada" />
-        <input type="number" [(ngModel)]="novaGreve.numeroTrabalhadores" placeholder="Número de Trabalhadores" name="numeroTrabalhadores" *ngIf="!greveSelecionada" />
-  
-        <input type="text" [(ngModel)]="greveSelecionada.local" placeholder="Local" name="local" *ngIf="greveSelecionada" />
-        <input type="text" [(ngModel)]="novaGreve.local" placeholder="Local" name="local" *ngIf="!greveSelecionada" />
-  
-        <input type="text" [(ngModel)]="greveSelecionada.sindicato" placeholder="Sindicato" name="sindicato" *ngIf="greveSelecionada" />
-        <input type="text" [(ngModel)]="novaGreve.sindicato" placeholder="Sindicato" name="sindicato" *ngIf="!greveSelecionada" />
-  
-        <button type="submit">{{ greveSelecionada ? 'Atualizar' : 'Criar' }} Greve</button>
-        <button type="button" (click)="cancelarEdicao()" *ngIf="greveSelecionada">Cancelar</button>
-      </form>
-    </div>
-    <div>
-      <h3>Lista de Greves</h3>
-      <ul>
-        <li *ngFor="let greve of greves">
-          {{ greve.motivo }} - {{ greve.local }} ({{ greve.dataInicio }} - {{ greve.dataFim }})
-          <button (click)="selecionarGreve(greve)">Editar</button>
-          <button (click)="deletarGreve(greve.id!)">Excluir</button>
-        </li>
-      </ul>
-    </div>
-  
-    <!-- Pesquisa por categoria e sindicato -->
-    <div>
-      <h3>Pesquisar Greves</h3>
-      <input type="text" #categoriaInput placeholder="Categoria" />
-      <button (click)="buscarPorCategoria(categoriaInput.value)">Buscar por Categoria</button>
-      <input type="text" #sindicatoInput placeholder="Sindicato" />
-      <button (click)="buscarPorSindicato(sindicatoInput.value)">Buscar por Sindicato</button>
-    </div>
-  
-    <div *ngIf="mensagemErro" class="error">{{ mensagemErro }}</div>
+<div class="flex min-h-screen bg-gray-800 text-gray-400 justify-center items-center p-6">
+  <div class="bg-gray-900 p-8 rounded-lg shadow-lg w-full max-w-6xl">
+    <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="mb-8">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+        <div class="flex flex-col">
+          <label for="categoria" class="text-gray-300 mb-2">Categoria:</label>
+          <input
+            id="categoria"
+            formControlName="categoria"
+            class="p-4 border border-gray-600 rounded-lg bg-gray-800 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-transform duration-300 ease-in-out"
+            placeholder="Digite a categoria"
+          />
+        </div>
+        <div class="flex flex-col">
+          <label for="sindicato" class="text-gray-300 mb-2">Sindicato:</label>
+          <input
+            id="sindicato"
+            formControlName="sindicato"
+            class="p-4 border border-gray-600 rounded-lg bg-gray-800 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-transform duration-300 ease-in-out"
+            placeholder="Digite o sindicato"
+          />
+        </div>
+      </div>
+      <div class="flex justify-between items-center mb-8">
+        <div class="flex gap-4">
+          <button
+            type="submit"
+            class="px-6 py-3 bg-blue-500 text-white rounded-lg font-medium text-sm transition duration-300 hover:bg-blue-600 focus:outline-none"
+          >
+            Buscar
+          </button>
+          <button
+            type="button"
+            (click)="onReset()"
+            class="px-6 py-3 bg-gray-700 text-gray-300 rounded-lg font-medium text-sm transition duration-300 hover:bg-gray-600 focus:outline-none"
+          >
+            Limpar
+          </button>
+        </div>
+        <button
+          type="button"
+          (click)="onAddGreve()"
+          class="px-6 py-3 bg-green-500 text-white rounded-lg font-medium text-sm transition duration-300 hover:bg-green-600 focus:outline-none"
+        >
+          Adicionar Greve
+        </button>
+      </div>
+    </form>
+    <table class="min-w-full bg-gray-900 border border-gray-700 rounded-lg overflow-hidden mb-8">
+      <thead class="bg-gray-800">
+        <tr>
+          <th class="p-4 border-b border-gray-700 text-center">ID</th>
+          <th class="p-4 border-b border-gray-700 text-center">Data Início</th>
+          <th class="p-4 border-b border-gray-700 text-center">Data Fim</th>
+          <th class="p-4 border-b border-gray-700 text-center">Motivo</th>
+          <th class="p-4 border-b border-gray-700 text-center">Categoria</th>
+          <th class="p-4 border-b border-gray-700 text-center">Local</th>
+          <th class="p-4 border-b border-gray-700 text-center">Número de Trabalhadores</th>
+          <th class="p-4 border-b border-gray-700 text-center">Sindicato</th>
+          <th class="p-4 border-b border-gray-700 text-center">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let greve of greves" class="hover:bg-gray-800 transition-colors duration-200">
+          <td class="p-4 border-b border-gray-700 text-center">{{ greve.id }}</td>
+          <td class="p-4 border-b border-gray-700 text-center">{{ greve.dataInicio | date }}</td>
+          <td class="p-4 border-b border-gray-700 text-center">{{ greve.dataFim | date }}</td>
+          <td class="p-4 border-b border-gray-700 text-center">{{ greve.motivo }}</td>
+          <td class="p-4 border-b border-gray-700 text-center">{{ greve.categoriasTrabalhadores }}</td>
+          <td class="p-4 border-b border-gray-700 text-center">{{ greve.local }}</td>
+          <td class="p-4 border-b border-gray-700 text-center">{{ greve.numeroTrabalhadores }}</td>
+          <td class="p-4 border-b border-gray-700 text-center">{{ greve.sindicato }}</td>
+          <td class="p-4 border-b border-gray-700 text-center flex justify-center gap-2">
+            <button
+              (click)="onEditGreve(greve)"
+              class="px-4 py-2 bg-yellow-500 text-white rounded-lg text-sm transition duration-300 hover:bg-yellow-600 focus:outline-none"
+            >
+              Editar
+            </button>
+            <button
+              (click)="onDeleteGreve(greve.id)"
+              class="px-4 py-2 bg-red-500 text-white rounded-lg text-sm transition duration-300 hover:bg-red-600 focus:outline-none"
+            >
+              Deletar
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <app-edit-greve-modal
+      *ngIf="showModal"
+      [greve]="selectedGreve"
+      (save)="onSaveGreve($event)"
+      (close)="onCloseModal()"
+    ></app-edit-greve-modal>
   </div>
-  
+</div>

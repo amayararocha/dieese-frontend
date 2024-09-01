@@ -11,7 +11,6 @@ import { FooterComponent } from "./components/footer/footer.component";
   standalone: true,
   imports: [RouterOutlet, LoginComponent, HomeComponent, NavbarComponent, FooterComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
 })
 export class AppComponent {
   title = 'dieese-frontend';

@@ -1,0 +1,91 @@
+<div class="flex min-h-screen bg-gray-800 text-gray-400 justify-center items-center p-10">
+  <div class="bg-gray-900 p-6 rounded-lg shadow-lg w-full max-w-3xl mx-4">
+    <form [formGroup]="addGreveForm" (ngSubmit)="onSubmit()" class="space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="flex flex-col">
+          <label for="dataInicio" class="text-gray-300 mb-2">Data Início:</label>
+          <input
+            id="dataInicio"
+            formControlName="dataInicio"
+            type="date"
+            class="p-3 border border-gray-600 rounded-lg bg-gray-800 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-transform duration-300 ease-in-out"
+          />
+        </div>
+        <div class="flex flex-col">
+          <label for="dataFim" class="text-gray-300 mb-2">Data Fim:</label>
+          <input
+            id="dataFim"
+            formControlName="dataFim"
+            type="date"
+            class="p-3 border border-gray-600 rounded-lg bg-gray-800 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-transform duration-300 ease-in-out"
+          />
+        </div>
+        <div class="flex flex-col">
+          <label for="categoriasTrabalhadores" class="text-gray-300 mb-2">Categorias de Trabalhadores:</label>
+          <input
+            id="categoriasTrabalhadores"
+            formControlName="categoriasTrabalhadores"
+            class="p-3 border border-gray-600 rounded-lg bg-gray-800 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-transform duration-300 ease-in-out"
+            placeholder="Digite as categorias"
+          />
+        </div>
+        <div class="flex flex-col">
+          <label for="numeroTrabalhadores" class="text-gray-300 mb-2">Número de Trabalhadores:</label>
+          <input
+            id="numeroTrabalhadores"
+            formControlName="numeroTrabalhadores"
+            type="number"
+            class="p-3 border border-gray-600 rounded-lg bg-gray-800 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-transform duration-300 ease-in-out"
+            placeholder="Digite o número de trabalhadores"
+          />
+        </div>
+        <div class="flex flex-col">
+          <label for="local" class="text-gray-300 mb-2">Local:</label>
+          <input
+            id="local"
+            formControlName="local"
+            class="p-3 border border-gray-600 rounded-lg bg-gray-800 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-transform duration-300 ease-in-out"
+            placeholder="Digite o local"
+          />
+        </div>
+        <div class="flex flex-col">
+          <label for="sindicato" class="text-gray-300 mb-2">Sindicato:</label>
+          <input
+            id="sindicato"
+            formControlName="sindicato"
+            class="p-3 border border-gray-600 rounded-lg bg-gray-800 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-transform duration-300 ease-in-out"
+            placeholder="Digite o sindicato"
+          />
+        </div>
+        <div class="flex flex-col col-span-1 md:col-span-2">
+          <label for="motivo" class="text-gray-300 mb-2">Motivo:</label>
+          <input
+            id="motivo"
+            formControlName="motivo"
+            class="p-3 border border-gray-600 rounded-lg bg-gray-800 text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-transform duration-300 ease-in-out"
+            placeholder="Digite o motivo"
+          />
+        </div>
+      </div>
+      <div class="flex gap-4 mt-6">
+        <button
+          type="submit"
+          [disabled]="loading"
+          class="px-6 py-3 bg-blue-500 text-white rounded-lg font-medium text-sm transition duration-300 hover:bg-blue-600 focus:outline-none flex-1"
+        >
+          Adicionar Greve
+        </button>
+        <button
+          type="button"
+          (click)="onReset()"
+          class="px-6 py-3 bg-gray-700 text-gray-300 rounded-lg font-medium text-sm transition duration-300 hover:bg-gray-600 focus:outline-none flex-1"
+        >
+          Limpar
+        </button>
+      </div>
+    </form>
+    
+    <div *ngIf="loading" class="text-gray-300 text-center mt-4">Carregando...</div>
+    <div *ngIf="error" class="bg-red-600 text-white p-4 rounded-lg mt-4">{{ error }}</div>
+  </div>
+</div>

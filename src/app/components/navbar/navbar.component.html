@@ -28,7 +28,7 @@
         <a href="/logout"
            class="bg-gradient-to-r from-red-600 to-pink-600 text-white font-bold py-2 px-6 rounded-full 
                   hover:from-red-700 hover:to-pink-700 hover:shadow-xl transition duration-300 transform hover:scale-105 text-lg"
-           (click)="logout()">Logout</a>
+           (click)="logout()">Sair</a>
       </li>
     </ul>
   </div>
@@ -50,7 +50,7 @@
           <a href="/login" class="bg-gradient-to-r from-teal-600 to-cyan-600 text-white font-bold py-2 px-6 rounded-full" (click)="closeMenu(); login('testuser', 'testpassword')">Login</a>
         </li>
         <li *ngIf="isLoggedIn">
-          <a href="/logout" class="bg-gradient-to-r from-red-600 to-pink-600 text-white font-bold py-2 px-6 rounded-full" (click)="closeMenu(); logout()">Logout</a>
+          <a href="/logout" class="bg-gradient-to-r from-red-600 to-pink-600 text-white font-bold py-2 px-6 rounded-full" (click)="closeMenu(); logout()">Sair</a>
         </li>
       </ul>
     </div>

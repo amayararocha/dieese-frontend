@@ -1,5 +1,5 @@
 export interface Greve {
-    id?: number;
+    id: number;
     dataInicio: string;
     dataFim?: string;
     motivo: string;
