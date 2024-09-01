@@ -13,33 +13,33 @@ export class GreveService {
 
   constructor(private http: HttpClient) { }
 
-  getAllGreves(): Observable<Greve[]> {
+  obterTodasGreves(): Observable<Greve[]> {
     return this.http.get<Greve[]>(`${this.apiUrl}/greves`);
   }
 
-  getGreveById(id: number): Observable<Greve> {
+  obterGrevePorId(id: number): Observable<Greve> {
     return this.http.get<Greve>(`${this.apiUrl}/greves/${id}`);
   }
 
-  getGrevesByCategoria(categoria: string): Observable<Greve[]> {
+  obterGrevesPorCategoria(categoria: string): Observable<Greve[]> {
     return this.http.get<Greve[]>(`${this.apiUrl}/greves/categoria/${categoria}`);
   }
 
-  getGrevesBySindicato(sindicato: string): Observable<Greve[]> {
+  obterGrevesPorSindicato(sindicato: string): Observable<Greve[]> {
     return this.http.get<Greve[]>(`${this.apiUrl}/greves/sindicato/${sindicato}`);
   }
 
-  createGreve(greve: Greve): Observable<Greve> {
+  criarGreve(greve: Greve): Observable<Greve> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post<Greve>(this.apiUrl, greve, { headers });
+    return this.http.post<Greve>(`${this.apiUrl}/greves`, greve, { headers });
   }
 
-  updateGreve(id: number, greve: Greve): Observable<Greve> {
+  atualizarGreve(id: number, greve: Greve): Observable<Greve> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
     return this.http.put<Greve>(`${this.apiUrl}/greves/${id}`, greve, { headers });
   }
 
-  deleteGreve(id: number): Observable<void> {
+  deletarGreve(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/greves/${id}`);
   }
 }

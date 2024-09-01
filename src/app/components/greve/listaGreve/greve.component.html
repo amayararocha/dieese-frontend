@@ -1,0 +1,51 @@
+<div class="container">
+    <h2>Gestão de Greves</h2>
+    <div>
+      <h3 *ngIf="!greveSelecionada">Nova Greve</h3>
+      <h3 *ngIf="greveSelecionada">Editar Greve</h3>
+      <form (ngSubmit)="salvarGreve()">
+        <input type="text" [(ngModel)]="greveSelecionada.dataInicio" placeholder="Data de Início" name="dataInicio" required *ngIf="greveSelecionada" />
+        <input type="text" [(ngModel)]="novaGreve.dataInicio" placeholder="Data de Início" name="dataInicio" required *ngIf="!greveSelecionada" />
+  
+        <input type="text" [(ngModel)]="greveSelecionada.motivo" placeholder="Motivo" name="motivo" required *ngIf="greveSelecionada" />
+        <input type="text" [(ngModel)]="novaGreve.motivo" placeholder="Motivo" name="motivo" required *ngIf="!greveSelecionada" />
+  
+        <input type="text" [(ngModel)]="greveSelecionada.categoriasTrabalhadores" placeholder="Categorias de Trabalhadores" name="categoriasTrabalhadores" *ngIf="greveSelecionada" />
+        <input type="text" [(ngModel)]="novaGreve.categoriasTrabalhadores" placeholder="Categorias de Trabalhadores" name="categoriasTrabalhadores" *ngIf="!greveSelecionada" />
+  
+        <input type="number" [(ngModel)]="greveSelecionada.numeroTrabalhadores" placeholder="Número de Trabalhadores" name="numeroTrabalhadores" *ngIf="greveSelecionada" />
+        <input type="number" [(ngModel)]="novaGreve.numeroTrabalhadores" placeholder="Número de Trabalhadores" name="numeroTrabalhadores" *ngIf="!greveSelecionada" />
+  
+        <input type="text" [(ngModel)]="greveSelecionada.local" placeholder="Local" name="local" *ngIf="greveSelecionada" />
+        <input type="text" [(ngModel)]="novaGreve.local" placeholder="Local" name="local" *ngIf="!greveSelecionada" />
+  
+        <input type="text" [(ngModel)]="greveSelecionada.sindicato" placeholder="Sindicato" name="sindicato" *ngIf="greveSelecionada" />
+        <input type="text" [(ngModel)]="novaGreve.sindicato" placeholder="Sindicato" name="sindicato" *ngIf="!greveSelecionada" />
+  
+        <button type="submit">{{ greveSelecionada ? 'Atualizar' : 'Criar' }} Greve</button>
+        <button type="button" (click)="cancelarEdicao()" *ngIf="greveSelecionada">Cancelar</button>
+      </form>
+    </div>
+    <div>
+      <h3>Lista de Greves</h3>
+      <ul>
+        <li *ngFor="let greve of greves">
+          {{ greve.motivo }} - {{ greve.local }} ({{ greve.dataInicio }} - {{ greve.dataFim }})
+          <button (click)="selecionarGreve(greve)">Editar</button>
+          <button (click)="deletarGreve(greve.id!)">Excluir</button>
+        </li>
+      </ul>
+    </div>
+  
+    <!-- Pesquisa por categoria e sindicato -->
+    <div>
+      <h3>Pesquisar Greves</h3>
+      <input type="text" #categoriaInput placeholder="Categoria" />
+      <button (click)="buscarPorCategoria(categoriaInput.value)">Buscar por Categoria</button>
+      <input type="text" #sindicatoInput placeholder="Sindicato" />
+      <button (click)="buscarPorSindicato(sindicatoInput.value)">Buscar por Sindicato</button>
+    </div>
+  
+    <div *ngIf="mensagemErro" class="error">{{ mensagemErro }}</div>
+  </div>
+  

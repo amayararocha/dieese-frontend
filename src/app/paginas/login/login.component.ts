@@ -21,7 +21,7 @@ export class LoginComponent {
     this.usuarioService.autenticarUsuario(this.usuarioLogin).subscribe({
       next: (response) => {
         console.log('Login bem-sucedido:', response);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/greves']);
       },
       error: (error) => {
         this.mensagemErro = 'Falha na autenticação. Verifique suas credenciais.';

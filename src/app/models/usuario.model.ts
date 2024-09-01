@@ -8,5 +8,6 @@ export class Usuario {
   export interface UsuarioLogin {
     usuario: string;
     senha: string;
+    token?: string;
   }
   
