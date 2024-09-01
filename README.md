@@ -1,27 +1,46 @@
-# DieeseFrontend
+# Greve API
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.0.
+Este é o frontend da aplicação de gestão de greves, desenvolvido em Angular e hospedado no Vercel. A aplicação permite que usuários visualizem, filtrem, adicionem, editem e excluam informações sobre greves.
 
-## Development server
+[Visite a Aplicação](https://dieese-frontend.vercel.app)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## 📑 Funcionalidades
 
-## Code scaffolding
+- **Busca e Filtragem**: Permite que os usuários filtrem greves por categoria ou sindicato.
+- **Adicionar Greve**: Adiciona novas greves com detalhes específicos.
+- **Editar Greve**: Edita informações de greves existentes.
+- **Deletar Greve**: Remove greves indesejadas do sistema.
+- **Paginação**: Navegação simplificada através de múltiplas páginas de resultados.
+- **Modal de Edição**: Interface amigável para editar greves diretamente da lista.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## 🚀 Tecnologias Utilizadas
 
-## Build
+- **Angular 18**: Framework principal para construção do frontend.
+- **Tailwind CSS**: Framework de CSS para estilização responsiva e moderna.
+- **Vercel**: Plataforma de hospedagem e deploy contínuo.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## 📦 Instalação
 
-## Running unit tests
+Para executar este projeto localmente, siga os passos abaixo:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. **Clone o repositório:**
 
-## Running end-to-end tests
+```bash
+   git clone https://github.com/seu-usuario/dieese-frontend.git
+   cd dieese-frontend
+```
+2. **Instale as dependências:**
+```bash
+  npm install
+``` 
+3. **Execute a aplicação:**
+```bash
+  ng serve
+```
+4. **Acesse a aplicação:**
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Abra seu navegador e vá para http://localhost:4200.
 
-## Further help
+## ⚙️ Configuração
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+Certifique-se de que o backend da aplicação está rodando corretamente e que as rotas da API estão configuradas adequadamente para que o frontend possa se comunicar com o servidor.
