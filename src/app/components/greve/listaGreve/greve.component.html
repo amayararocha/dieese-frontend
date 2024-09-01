@@ -46,6 +46,7 @@
         </button>
       </div>
     </form>
+
     <table class="min-w-full bg-gray-900 border border-gray-700 rounded-lg overflow-hidden mb-8">
       <thead class="bg-gray-800">
         <tr>
@@ -61,7 +62,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let greve of greves" class="hover:bg-gray-800 transition-colors duration-200">
+        <tr *ngFor="let greve of paginatedGreves" class="hover:bg-gray-800 transition-colors duration-200">
           <td class="p-4 border-b border-gray-700 text-center">{{ greve.id }}</td>
           <td class="p-4 border-b border-gray-700 text-center">{{ greve.dataInicio | date }}</td>
           <td class="p-4 border-b border-gray-700 text-center">{{ greve.dataFim | date }}</td>
@@ -70,23 +71,44 @@
           <td class="p-4 border-b border-gray-700 text-center">{{ greve.local }}</td>
           <td class="p-4 border-b border-gray-700 text-center">{{ greve.numeroTrabalhadores }}</td>
           <td class="p-4 border-b border-gray-700 text-center">{{ greve.sindicato }}</td>
-          <td class="p-4 border-b border-gray-700 text-center flex justify-center gap-2">
-            <button
-              (click)="onEditGreve(greve)"
-              class="px-4 py-2 bg-yellow-500 text-white rounded-lg text-sm transition duration-300 hover:bg-yellow-600 focus:outline-none"
-            >
-              Editar
-            </button>
-            <button
-              (click)="onDeleteGreve(greve.id)"
-              class="px-4 py-2 bg-red-500 text-white rounded-lg text-sm transition duration-300 hover:bg-red-600 focus:outline-none"
-            >
-              Deletar
-            </button>
+          <td class="p-4 border-b border-gray-700 text-center">
+            <div class="flex justify-center gap-2">
+              <button
+                (click)="onEditGreve(greve)"
+                class="px-4 py-2 bg-yellow-500 text-white rounded-lg text-sm transition duration-300 hover:bg-yellow-600 focus:outline-none"
+              >
+                Editar
+              </button>
+              <button
+                (click)="onDeleteGreve(greve.id)"
+                class="px-4 py-2 bg-red-500 text-white rounded-lg text-sm transition duration-300 hover:bg-red-600 focus:outline-none"
+              >
+                Deletar
+              </button>
+            </div>
           </td>
         </tr>
       </tbody>
     </table>
+
+    <div class="flex justify-between items-center mb-8">
+      <button
+        (click)="previousPage()"
+        [disabled]="currentPage === 1"
+        class="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg disabled:opacity-50"
+      >
+        Anterior
+      </button>
+      <span class="text-gray-300">Página {{ currentPage }} de {{ totalPages }}</span>
+      <button
+        (click)="nextPage()"
+        [disabled]="currentPage === totalPages"
+        class="px-4 py-2 bg-gray-700 text-gray-300 rounded-lg disabled:opacity-50"
+      >
+        Próxima
+      </button>
+    </div>
+
     <app-edit-greve-modal
       *ngIf="showModal"
       [greve]="selectedGreve"

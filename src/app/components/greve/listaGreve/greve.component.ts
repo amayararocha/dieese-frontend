@@ -14,11 +14,15 @@ import { EditGreveModalComponent } from '../edita-greve/edita-greve.component';
 })
 export class GreveListComponent implements OnInit {
   greves: Greve[] = [];
+  paginatedGreves: Greve[] = [];
   searchForm!: FormGroup;
   loading: boolean = false;
   error: string | null = null;
   selectedGreve?: Greve;
   showModal: boolean = false;
+  currentPage = 1;
+  itemsPerPage = 5;
+  totalPages = 1;
 
   constructor(
     private greveService: GreveService,
@@ -44,6 +48,8 @@ export class GreveListComponent implements OnInit {
       this.greveService.obterGrevesPorCategoria(categoria).subscribe(
         (data: Greve[]) => {
           this.greves = data;
+          this.totalPages = Math.ceil(this.greves.length / this.itemsPerPage);
+          this.updatePaginatedGreves();
           this.loading = false;
         },
         (err) => {
@@ -55,6 +61,8 @@ export class GreveListComponent implements OnInit {
       this.greveService.obterGrevesPorSindicato(sindicato).subscribe(
         (data: Greve[]) => {
           this.greves = data;
+          this.totalPages = Math.ceil(this.greves.length / this.itemsPerPage);
+          this.updatePaginatedGreves();
           this.loading = false;
         },
         (err) => {
@@ -66,6 +74,8 @@ export class GreveListComponent implements OnInit {
       this.greveService.obterTodasGreves().subscribe(
         (data: Greve[]) => {
           this.greves = data;
+          this.totalPages = Math.ceil(this.greves.length / this.itemsPerPage);
+          this.updatePaginatedGreves();
           this.loading = false;
         },
         (err) => {
@@ -74,6 +84,12 @@ export class GreveListComponent implements OnInit {
         }
       );
     }
+  }
+
+  updatePaginatedGreves(): void {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedGreves = this.greves.slice(startIndex, endIndex);
   }
 
   onSearch(): void {
@@ -122,6 +138,20 @@ export class GreveListComponent implements OnInit {
           this.error = 'Erro ao deletar a greve';
         }
       );
+    }
+  }
+
+  nextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePaginatedGreves();
+    }
+  }
+
+  previousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePaginatedGreves();
     }
   }
 }
