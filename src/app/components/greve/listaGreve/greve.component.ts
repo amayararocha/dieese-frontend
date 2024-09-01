@@ -42,6 +42,7 @@ export class GreveListComponent implements OnInit {
   loadGreves(): void {
     this.loading = true;
     this.error = null;
+    this.currentPage = 1;  
     const { categoria, sindicato } = this.searchForm.value;
 
     if (categoria) {
@@ -93,12 +94,13 @@ export class GreveListComponent implements OnInit {
   }
 
   onSearch(): void {
+    this.currentPage = 1;
     this.loadGreves();
   }
 
   onReset(): void {
     this.searchForm.reset();
-    this.loadGreves();
+    this.onSearch(); 
   }
 
   onAddGreve(): void {
